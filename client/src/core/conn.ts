@@ -4,7 +4,7 @@ import { AnchorProvider } from "@project-serum/anchor";
 
 window.Buffer = buffer.Buffer;
 
-const network = clusterApiUrl("devnet");
+const network = process.env.REACT_APP_HELIUS_RPC_URL || process.env.HELIUS_RPC_URL || clusterApiUrl("devnet");
 const opts = {
   preflightCommitment: "processed",
 };

@@ -1,5 +1,5 @@
 import React, { ReactElement, useState } from "react";
-import "./lever.scss";
+import "./lever.css";
 import bulb from "../../img/bulb.png";
 import lever from "../../img/lever.png";
 

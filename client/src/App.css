@@ -1,0 +1,110 @@
+/* App.css */
+.header {
+  display: flex;
+  justify-content: flex-end;
+  padding: 18px 18px 0;
+  height: 40px;
+  align-items: center;
+  color: #fff;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.header svg {
+  fill: #fff;
+  height: 17px;
+  width: 28px;
+  margin-bottom: -3px;
+  margin-right: 12px;
+}
+
+.glow-logo {
+  display: flex;
+  justify-content: center;
+  margin-top: 2vh;
+  height: 120px;
+  position: relative;
+  z-index: 10;
+}
+
+.glow-logo img {
+  max-height: 100%;
+  animation: glow 2s ease-in-out infinite alternate;
+  border-radius: 10px;
+}
+
+@keyframes glow {
+  0% {
+    filter: drop-shadow(0 0 10px rgba(147, 51, 234, 0.8)) drop-shadow(0 0 20px rgba(147, 51, 234, 0.5));
+    transform: scale(1);
+  }
+  100% {
+    filter: drop-shadow(0 0 15px rgba(34, 197, 94, 0.8)) drop-shadow(0 0 30px rgba(34, 197, 94, 0.5));
+    transform: scale(1.02);
+  }
+}
+
+.top-image {
+  display: flex;
+  justify-content: center;
+  margin-top: 0;
+  height: 200px;
+  position: relative;
+  z-index: 20;
+}
+
+.top-image img {
+  max-height: 100%;
+  animation: topGlow 3s ease-in-out infinite alternate;
+  border-radius: 15px;
+}
+
+@keyframes topGlow {
+  0% {
+    filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.8)) drop-shadow(0 0 30px rgba(255, 215, 0, 0.5));
+    transform: scale(1);
+  }
+  100% {
+    filter: drop-shadow(0 0 25px rgba(255, 140, 0, 0.8)) drop-shadow(0 0 40px rgba(255, 140, 0, 0.5));
+    transform: scale(1.03);
+  }
+}
+
+.logo {
+  display: flex;
+  justify-content: center;
+  margin-top: 2vh;
+  height: 160px;
+}
+
+.slot-container {
+  background-image: url("./img/machine.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 610px;
+  width: 800px;
+  min-width: 800px;
+}
+
+.contaner-positioner {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  z-index: 10;
+}
+
+.collect-container {
+  display: flex;
+  justify-content: center;
+}
+
+.cluster {
+  color: #ffffff99;
+  font-size: 12px;
+  text-align: right;
+  padding: 8px 21px 0;
+}

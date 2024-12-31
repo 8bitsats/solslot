@@ -54,12 +54,16 @@ export const getBalance = async () => {
   //@ts-ignore
   const program = new Program(idl, programID, provider);
   if (!provider.publicKey) {
-    return { balance: "", winBalance: "" };
+    return { balance: "", winBalance: "", vaultBalance: "" };
   }
 
+  const [vault] = await PublicKey.findProgramAddressSync(
+    [Buffer.from("treasury")],
+    program.programId
+  );
 
   let vaultBalance = await provider.connection
-    .getBalance(new PublicKey("DNifDbg6Mj2NrFWP31cUDTHt5mdqBAz7EHMwmY8ZAs9j"))
+    .getBalance(vault)
     .then(function (data) {
       return lamportsToSol(data).toFixed(2);
     })
@@ -79,20 +83,25 @@ export const getBalance = async () => {
       return "";
     });
 
-  const [userVault, ubump] = await PublicKey.findProgramAddressSync(
-    [Buffer.from("uvault"), provider.wallet.publicKey.toBuffer()],
-    program.programId
-  );
-  let winBalance = await provider.connection
-    .getBalance(userVault)
-    .then(function (data) {
-      console.log("Winning balance : " + lamportsToSol(data).toFixed(2));
-      return lamportsToSol(data).toFixed(2);
-    })
-    .catch(function (error) {
-      console.log(error);
-      return "";
-    });
+  let winBalance = "0.00";
+  let userVault: PublicKey | undefined;
+
+  try {
+    if (provider.wallet && provider.wallet.publicKey) {
+      [userVault] = await PublicKey.findProgramAddressSync(
+        [Buffer.from("uvault"), provider.wallet.publicKey.toBuffer()],
+        program.programId
+      );
+
+      if (userVault) {
+        const userVaultBalance = await provider.connection.getBalance(userVault);
+        winBalance = lamportsToSol(userVaultBalance).toFixed(2);
+        console.log("Winning balance: " + winBalance);
+      }
+    }
+  } catch (error) {
+    console.error("Error getting user vault:", error);
+  }
 
   return { balance, winBalance, vaultBalance };
 };

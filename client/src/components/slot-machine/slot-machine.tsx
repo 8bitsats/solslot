@@ -1,5 +1,5 @@
 import React, { ReactElement, useState } from "react";
-import "./slot-machine.scss";
+import "./slot-machine.css";
 import { SlotScreen } from "../slot-screen/slot-screen";
 import { Lever } from "../lever/lever";
 

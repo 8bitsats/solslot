@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import "./slot-screen.scss";
+import "./slot-screen.css";
 import { Reel } from "../reel/reel";
 import { useEffect } from "react";
 import { SlotStatus } from "../slot-machine/slot-machine";

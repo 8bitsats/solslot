@@ -28,28 +28,26 @@
   display: flex;
   flex-direction: column;
   cursor: pointer;
+}
 
-  .bulb {
-    width: 50%;
-    position: relative;
-    right: -11px;
-    z-index: 6;
-    bottom: -4px;
-  }
+.lever .bulb {
+  width: 50%;
+  position: relative;
+  right: -11px;
+  z-index: 6;
+  bottom: -4px;
+}
 
-  .arm {
-    width: 50%;
-    transform-origin: bottom center;
-    z-index: 5;
-  }
+.lever .arm {
+  width: 50%;
+  transform-origin: bottom center;
+  z-index: 5;
+}
 
-  &.pulled {
-    .bulb {
-      animation: 1s none 0s 1 normal pull;
-    }
+.lever.pulled .bulb {
+  animation: 1s none 0s 1 normal pull;
+}
 
-    .arm {
-      animation: 1s none 0s 1 normal pull-lever;
-    }
-  }
+.lever.pulled .arm {
+  animation: 1s none 0s 1 normal pull-lever;
 }

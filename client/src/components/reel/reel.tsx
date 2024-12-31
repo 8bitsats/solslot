@@ -1,5 +1,5 @@
-import React, { ReactElement, useEffect, useState } from "react";
-import "./reel.scss";
+import React, { ReactElement, useEffect, useState, useCallback } from "react";
+import "./reel.css";
 
 export const Reel = ({
   index,
@@ -9,9 +9,9 @@ export const Reel = ({
 }: any): ReactElement => {
   const [el, setEl] = useState(null);
   const [el2, setEl2] = useState(null);
+  const [requestID, setRequestID] = useState<number | null>(null);
 
-  let requestID: number;
-  const startAnimation = (
+  const startAnimation = useCallback((
     e1: any,
     e2: any,
     target: number,
@@ -43,23 +43,22 @@ export const Reel = ({
         }
       }
 
-      // console.log(`${executed} of ${target}`)
-
       const e2pos = e1pos > -100 ? e1pos - 800 : e1pos + 800;
 
       e1.style.top = `${e1pos}px`;
       e2.style.top = `${e2pos}px`;
 
       if (executed < target || target < 0) {
-        // cancelAnimationFrame(requestID);
         prevFrame = Date.now();
-        requestID = requestAnimationFrame(playAnimation);
+        const newRequestID = requestAnimationFrame(playAnimation);
+        setRequestID(newRequestID);
       } else {
         animationFinished && animationFinished();
       }
     }
-    requestAnimationFrame(playAnimation);
-  };
+    const initialRequestID = requestAnimationFrame(playAnimation);
+    setRequestID(initialRequestID);
+  }, []);
 
   useEffect(() => {
     if (el && el2 && target !== null) {
@@ -78,9 +77,11 @@ export const Reel = ({
     }
 
     return () => {
-      cancelAnimationFrame(requestID);
+      if (requestID !== null) {
+        cancelAnimationFrame(requestID);
+      }
     };
-  }, [el, el2, spin, target]);
+  }, [el, el2, spin, target, index, onSpinFinished, startAnimation, requestID]);
 
   return (
     <div className="reel">

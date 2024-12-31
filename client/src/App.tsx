@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as buffer from "buffer";
 import {
   SlotMachine,
@@ -12,12 +12,18 @@ import {
 } from "./core/wallet";
 import { ReactComponent as WalletSvg } from "./img/wallet.svg";
 
-import "./App.scss";
+import "./App.css";
 import { formatAddress } from "./core/utils";
 import logo from "./img/logo.png";
 window.Buffer = buffer.Buffer;
 
 function App() {
+  // Create and preload sounds
+  const loginSound = new Audio(process.env.PUBLIC_URL + '/login-sound.mp3');
+  const slotMachineSound = new Audio(process.env.PUBLIC_URL + '/Jackpot Slot Machine Sounds Effect Casino.mp3');
+  loginSound.preload = 'auto';
+  slotMachineSound.preload = 'auto';
+  slotMachineSound.loop = true;
   const [walletAddress, setWalletAdresss] = useState("");
   const [status, setStatus] = useState(SlotStatus.none);
   const [jackpot, setJackpot] = useState("");
@@ -25,6 +31,9 @@ function App() {
   const [winBalance, setWinBalance] = useState("");
 
   useEffect(() => {
+    // Play slot machine ambient sound when component mounts
+    slotMachineSound.play().catch(err => console.log('Error playing sound:', err));
+    
     getBalance();
     const onLoad = () => {
       checkIfWalletConnected().then((res) => {
@@ -84,6 +93,9 @@ function App() {
 
   return (
     <div className="App">
+      <div className="top-image">
+        <img src="https://zxiikllymaqizaoiqwam.supabase.co/storage/v1/object/public/art/IMG_7005.png" alt="Top Art" />
+      </div>
       <div className="header">
         {walletAddress && (
           <div className="wallet-info">
@@ -99,6 +111,8 @@ function App() {
               connectWallet().then((res) => {
                 setWalletAdresss(res as string);
                 updateBalance();
+                // Play sound on successful login
+                loginSound.play().catch(err => console.log('Error playing sound:', err));
               });
             }}
           >
@@ -106,7 +120,10 @@ function App() {
           </button>
         )}
       </div>
-      <div className="cluster">devnet</div>
+      <div className="cluster">mainnet</div>
+      <div className="glow-logo">
+        <img src={process.env.PUBLIC_URL + '/logo-glow.png'} alt="Glowing Logo" className="glow-effect" />
+      </div>
       <div className="logo">
         <img src={logo} alt="Logo"></img>
       </div>
